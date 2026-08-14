@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * COLOR SYSTEM
+ * -------------------------------------------------------------------------
+ * Values are H S% L% triplets (no `hsl()` wrapper) so Tailwind can compose
+ * them as `hsl(var(--token) / <alpha-value>)`.
+ *
+ * Palette rationale (institutional, not "startup"):
+ *   Primary  — deep academic navy. Used across Indian public-institution
+ *              branding; reads as authority + trust, not corporate tech.
+ *   Accent   — muted institutional gold. Reserved for achievement markers:
+ *              placement stats, CTAs, active nav state. Used sparingly.
+ *   Surface  — pure white cards on a faint cool-grey background so content
+ *              has real separation without heavy borders/shadows.
+ * -------------------------------------------------------------------------
+ */
+
+@layer base {
+  :root {
+    /* radius density */
+    --radius: 0.625rem; /* 10px */
+    --radius-card: 1rem; /* 16px */
+
+    /* layout */
+    --header-height: 4.75rem; /* 76px, mirrors constants/theme.ts layout.headerHeight */
+
+    /* base surfaces */
+    --background: 210 20% 98%;
+    --surface: 0 0% 100%;
+    --border: 214 18% 88%;
+    --input: 214 18% 88%;
+    --ring: 212 70% 30%;
+
+    /* brand */
+    --primary: 212 70% 24%;
+    --primary-hover: 212 65% 32%;
+    --primary-foreground: 0 0% 100%;
+
+    --accent: 38 68% 47%;
+    --accent-hover: 38 68% 41%;
+    --accent-foreground: 215 30% 12%;
+    /* Text-only variant: accent-hover (L41%) fails WCAG AA at normal text
+       size when used as text over accent/10 tinted surfaces. accent-ink is
+       darkened specifically for that use (eyebrow labels, tier badges) —
+       keep accent/accent-hover for fills, borders, and CTAs. */
+    --accent-ink: 38 68% 28%;
+
+    --muted: 210 18% 94%;
+
+    /* text */
+    --text-primary: 215 28% 15%;
+    --text-secondary: 215 14% 40%;
+    --text-inverse: 0 0% 100%;
+
+    /* semantic */
+    --success: 152 55% 30%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 90% 45%;
+    --warning-foreground: 215 30% 12%;
+    --destructive: 0 65% 45%;
+    --destructive-foreground: 0 0% 100%;
+  }
+
+  /*
+   * Dark mode — architecture ready, NOT enabled by default.
+   * Toggled only when `<html class="dark">` is set by ThemeProvider.
+   * See components/providers/theme-provider.tsx and constants/theme.ts.
+   */
+  .dark {
+    --background: 215 32% 8%;
+    --surface: 215 26% 11%;
+    --border: 215 20% 20%;
+    --input: 215 20% 20%;
+    --ring: 212 60% 55%;
+
+    --primary: 212 62% 55%;
+    --primary-hover: 212 62% 62%;
+    --primary-foreground: 215 30% 10%;
+
+    --accent: 38 70% 58%;
+    --accent-hover: 38 70% 64%;
+    --accent-foreground: 215 30% 10%;
+    --accent-ink: 38 70% 72%;
+
+    --muted: 215 22% 16%;
+
+    --text-primary: 210 20% 95%;
+    --text-secondary: 212 12% 65%;
+    --text-inverse: 215 30% 10%;
+
+    --success: 152 45% 45%;
+    --success-foreground: 215 30% 10%;
+    --warning: 38 80% 55%;
+    --warning-foreground: 215 30% 10%;
+    --destructive: 0 60% 58%;
+    --destructive-foreground: 215 30% 10%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-text-primary font-body antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading text-text-primary;
+  }
+
+  /* Respect reduced-motion preferences globally */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Visible keyboard focus ring everywhere — required for a govt/public-sector site */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+}
+
